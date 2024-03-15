@@ -51,3 +51,12 @@ There are some bugs in the code which the developer should resolve.
 
 Developer-
 The bugs given by tester have been resolved and code has been pushed .
+
+
+Tester-
+
+There are some more bugs in code which the developer should resolve.
+
+    1. The code is not working properly if the input is digit.
+    
+    2. The code is not working properly if the input is string of length greater than one .
