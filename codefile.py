@@ -1,4 +1,3 @@
-#Hangman game
 import random
 
 Death = ['''
@@ -59,10 +58,10 @@ def Main():
         num=random.randrange(0,len(food_items))
         guess0=food_items[num]
         guess01=guess0.upper()
-        print(guess01)
         guess011=" ".join(guess01)
         guess=list(guess01)
         if guess01 not in list1:
+            print(guess01)
             list1.append(guess01)
             break
         else: 
@@ -75,44 +74,47 @@ def Main():
     d=""
     while True:
         display2= input("Guess a letter:")
-        if display2 == "":
-            print("You did not enter anything")
-            break
-        elif display2 not in list2:
-            if display2.upper() in guess:
-                for i in range(len(guess)):
-                    if guess[i] == display2.upper():
-                        guess[i] = "|"  
-                        b[i] = display2.upper()  
-                d=" ".join(b)
-            else:
-                display1=display1+" "+display2.upper()
-                print(Death[dead])
-                dead=dead+1
-                if dead<len(Death):
-                    print(display1)
-                elif dead==len(Death):
-                    print("You ran out of chances")
-                    print("The correct word was",guess01)
-                    break
+        if len(display2)<=1 and display2.isalpha():
+            if display2 == "":
+                print("You did not enter anything")
+                break
+            elif display2 not in list2:
+                if display2.upper() in guess:
+                    for i in range(len(guess)):
+                        if guess[i] == display2.upper():
+                            guess[i] = "|"  
+                            b[i] = display2.upper()  
+                    d=" ".join(b)
+                else:
+                    display1=display1+" "+display2.upper()
+                    print(Death[dead])
+                    dead=dead+1
+                    if dead<len(Death):
+                        print(display1)
+                    elif dead==len(Death):
+                        print("You ran out of chances")
+                        print("The correct word was",guess01)
+                        break
 
-        elif display2 in list2:
-            print("You have already entered the letter")
+            elif display2 in list2:
+                print("You have already entered the letter")
+                print(d)
+                continue
+
+            list2.append(display2)
+
+
+            if d=="":
+                print(" ".join(display3))
+            elif d!=guess011:
+                print(d)
+            elif d==guess011:
+                print(d)
+                print("Congratulations!! You Won")
+                break
+        else:
+            print("Enter single letter only!!")
             print(d)
-            continue
-
-        list2.append(display2)
-
-
-        if d=="":
-            print(" ".join(display3))
-        elif d!=guess011:
-            print(d)
-        elif d==guess011:
-            print(d)
-            print("Congratulations!! You Won")
-            break
-    
     choice = input("Enter choice(y/n):")
     if choice.lower() == "y":
         Main()
