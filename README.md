@@ -1,7 +1,9 @@
 Project Title - Creating Hangman Game on Python
 
 Project Manager - Manav Gupta
+
 Developer - Mridul 
+
 Tester - Pranav Goyal
 
 
@@ -42,7 +44,9 @@ The code as requested has been developed and pushed on Github. All the requsted 
 Tester-
 
 There are some bugs in the code which the developer should resolve.
+
     1. The code is not working if words with repeating letters are chosen.
+    
     2. There is no option to play again.
 
 Developer-
