@@ -37,3 +37,13 @@ Step 8-
 Developer-
 
 The code as requested has been developed and pushed on Github. All the requsted features have been added.
+
+
+Tester-
+
+There are some bugs in the code which the developer should resolve.
+    1. The code is not working if words with repeating letters are chosen.
+    2. There is no option to play again.
+
+Developer-
+The bugs given by tester have been resolved and code has been pushed .

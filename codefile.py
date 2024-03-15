@@ -1,3 +1,4 @@
+#Hangman game
 import random
 
 Death = ['''
