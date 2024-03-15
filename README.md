@@ -60,3 +60,6 @@ There are some more bugs in code which the developer should resolve.
     1. The code is not working properly if the input is digit.
     
     2. The code is not working properly if the input is string of length greater than one .
+Developer-
+
+The given errors has been resolved and the code is working properly . 
