@@ -1,124 +1,103 @@
+from tkinter import *
+from string import ascii_uppercase
 import random
 
-Death = ['''
-    +---+
-         |
-         |
-         |
-        ===''', '''
-    +---+
-    O   |
-        |
-        |
-       ===''', '''
-    +---+
-    O   |
-    |   |
-        |
-       ===''', '''
-    +---+
-    O   |
-   /|   |
-        |
-       ===''', '''
-    +---+
-    O   |
-   /|\  |
-        |
-       ===''', '''
-    +---+
-    O   |
-   /|\  |
-   /    |
-       ===''', '''
-    +---+
-    O   |
-   /|\  |
-   / \  |
-       ===''']
+def guessfun():
+    win = Tk()
+    win.iconbitmap("stick-man.ico")
+    win.minsize(width=1300, height=600)
+    win.title("Hangman Game")
 
-food_items = [
-    "apple", "apricot", "avocado", "banana", "blackberry", "blueberry",
-    "carrot", "cherry", "coconut", "corn", "cucumber",
-    "date", "eggplant", "fig", "grape", "grapefruit", "green bean",
-    "kiwi", "lemon", "lettuce", "lime", "mango", "nectarine", "onion",
-    "orange", "papaya", "peach", "pear", "peas", "pineapple", "plum",
-    "pomegranate", "potato", "pumpkin", "raspberry",
-    "spinach", "squash", "strawberry", "tomato", "watermelon","pizza","burger"
-    "chips","juice","bread","puff","fries","tacos","biscuits","paratha","paneer",
-    "chaap","kebab","pasta","macroni","sphagetti","maggi","noodles"
+    words = [
+        "apple", "apricot", "avocado", "banana", "blackberry", "blueberry",
+        "carrot", "cherry", "coconut", "corn", "cucumber",
+        "date", "eggplant", "fig", "grape", "grapefruit", "green bean",
+        "kiwi", "lemon", "lettuce", "lime", "mango", "nectarine", "onion",
+        "orange", "papaya", "peach", "pear", "peas", "pineapple", "plum",
+        "pomegranate", "potato", "pumpkin", "raspberry",
+        "spinach", "squash", "strawberry", "tomato", "watermelon", "pizza", "burger",
+        "chips", "juice", "bread", "puff", "fries", "tacos", "biscuits", "paratha", "paneer",
+        "chaap", "kebab", "pasta", "macroni", "sphagetti", "maggi", "noodles"
+    ]
+    pictures = [PhotoImage(file="hang5.png"), PhotoImage(file="hang6.png"), PhotoImage(file="hang7.png"),
+                PhotoImage(file="hang8.png"), PhotoImage(file="hang9.png"), PhotoImage(file="hang10.png"),
+                PhotoImage(file="hang11.png")]
 
-]
-list1=[]
-#list2=[]
-def Main():
-    dead=1
-    while True:
-        list2=[]
-        num=random.randrange(0,len(food_items))
-        guess0=food_items[num]
-        guess01=guess0.upper()
-        guess011=" ".join(guess01)
-        guess=list(guess01)
-        if guess01 not in list1:
-            print(guess01)
-            list1.append(guess01)
-            break
-        else: 
-            continue
+    def display_word(word, guesses):
+        word = word.upper()
+        return ' '.join(letter if letter.upper() in guesses else '_' for letter in word)
 
-    display1= "Wrong Guess:"
-    display3="_"*len(guess)
-    b=list(display3)
-    print(" ".join(display3))
-    d=""
-    while True:
-        display2= input("Guess a letter:")
-        if len(display2)<=1 and display2.isalpha():
-            if display2 == "":
-                print("You did not enter anything")
-                break
-            elif display2 not in list2:
-                if display2.upper() in guess:
-                    for i in range(len(guess)):
-                        if guess[i] == display2.upper():
-                            guess[i] = "|"  
-                            b[i] = display2.upper()  
-                    d=" ".join(b)
-                else:
-                    display1=display1+" "+display2.upper()
-                    print(Death[dead])
-                    dead=dead+1
-                    if dead<len(Death):
-                        print(display1)
-                    elif dead==len(Death):
-                        print("You ran out of chances")
-                        print("The correct word was",guess01)
-                        break
+    def update_image():
+        nonlocal wrong_guesses
+        if wrong_guesses < len(pictures):
+            hangman_image.config(image=pictures[wrong_guesses])
 
-            elif display2 in list2:
-                print("You have already entered the letter")
-                print(d)
-                continue
+    def check_letter(letter):
+        nonlocal wrong_guesses, word_to_guess, guessed_letters, correct_guesses, message
+        if letter in guessed_letters:
+            message.set("You have already guessed this letter.")
+            return
 
-            list2.append(display2)
+        guessed_letters.add(letter)  # Add the guessed letter to guessed letters
 
-
-            if d=="":
-                print(" ".join(display3))
-            elif d!=guess011:
-                print(d)
-            elif d==guess011:
-                print(d)
-                print("Congratulations!! You Won")
-                break
+        if letter in word_to_guess:
+            correct_guesses.set(display_word(word_to_guess, guessed_letters))
+            if '_' not in correct_guesses.get():
+                message.set("Congratulations!! You Won")
         else:
-            print("Enter single letter only!!")
-            print(d)
-    choice = input("Enter choice(y/n):")
-    if choice.lower() == "y":
-        Main()
-    else:
-        None
+            wrong_guesses += 1
+            update_image()
+            if wrong_guesses >= len(pictures):
+                message.set("You ran out of chances. The correct word was " + word_to_guess)
+            else:
+                # Filter out correct guesses before displaying wrong guesses
+                wrong_guess_list = [ltr for ltr in guessed_letters if ltr not in word_to_guess]
+                message.set("Wrong Guesses: " + ' '.join(sorted(wrong_guess_list)))
 
-Main()
+    def reset_game():
+        nonlocal word_to_guess, guessed_letters, wrong_guesses
+        word_to_guess = random.choice(words).upper()
+        guessed_letters.clear()
+        correct_guesses.set(display_word(word_to_guess, guessed_letters))
+        wrong_guesses = 0
+        update_image()
+        message.set("")
+
+    word_to_guess = random.choice(words).upper()  # Convert word to uppercase
+    guessed_letters = set()
+    wrong_guesses = 0 
+
+    top_frame = Frame(win, bg="steelblue")
+    top_frame.grid(row=0, column=0, columnspan=25, sticky="ew")
+
+    label = Label(top_frame, text="Can you save your Hangman ?", font=("Arial", 25), bg="steelblue", fg="Black", padx=20)
+    label.grid(row=0, column=2, sticky="ew")
+
+    hangman_image = Label(top_frame, bg="steelblue")
+    hangman_image.config(image=pictures[0])
+    hangman_image.grid(row=1, column=0, rowspan=2, columnspan=3, padx=10, pady=156)
+
+    correct_guesses = StringVar()
+    correct_guesses.set(display_word(word_to_guess, guessed_letters))
+    guess_label = Label(top_frame, textvariable=correct_guesses, font=("Arial", 20), bg="steelblue", fg="Black")
+    guess_label.grid(row=1, column=24, sticky="e")
+
+    message = StringVar()
+    message_label = Label(top_frame, textvariable=message, font=("Arial", 15), bg="steelblue", fg="Black")
+    message_label.grid(row=2, column=24, sticky="e")
+
+    keyboard_frame = Frame(win)
+    keyboard_frame.grid(row=2, column=0, columnspan=18, sticky="ew")
+
+    for i, c in enumerate(ascii_uppercase):
+        row = i // 9
+        column = i % 9
+        Button(keyboard_frame, text=c, height=4, width=20, pady=10, bg="lightgrey", fg="red", bd=3,
+               command=lambda letter=c: check_letter(letter)).grid(row=row, column=column)
+
+    Button(keyboard_frame, text="New Game", height=4, width=20, bg="lightgrey", fg="red", pady=10,
+           command=reset_game).grid(row=row, column=column + 1)
+
+    win.mainloop()
+
+guessfun()
