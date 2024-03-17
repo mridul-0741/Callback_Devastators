@@ -71,12 +71,18 @@ Tester-
 The program is now working properly and is ready for final release.
  
 
- Project Manager -
+Project Manager -
 
- The program is working properly. The developer should now make a GUI for it and prepare the program for the final release.
+The program is working properly. The developer should now make a GUI for it and prepare the program for the final release.
 
 Developer-
 
 The final code of game with integrated GUI has been pushed 
 
 
+Project Manager -
+
+The team has done a very good job. The program made is fire. Developer and Tester have done a very good job. Keep it up team. And we are looking forward to accept more projects like this and deliver the best program to the user.
+
+Thank You
+PEACE 
