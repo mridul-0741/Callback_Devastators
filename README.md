@@ -75,3 +75,8 @@ The program is now working properly and is ready for final release.
 
  The program is working properly. The developer should now make a GUI for it and prepare the program for the final release.
 
+Developer-
+
+The final code of game with integrated GUI has been pushed 
+
+
